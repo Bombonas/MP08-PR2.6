@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.mp08_pr26.R;
@@ -37,9 +38,9 @@ public class AccFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_acc, container, false);
-        TextView textX = root.findViewById(R.id.textViewX);
-        TextView textY = root.findViewById(R.id.textViewY);
-        TextView textZ = root.findViewById(R.id.textViewZ);
+        ProgressBar barX = root.findViewById(R.id.barX);
+        ProgressBar barY = root.findViewById(R.id.barY);
+        ProgressBar barZ = root.findViewById(R.id.barZ);
         sensorListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
@@ -49,9 +50,9 @@ public class AccFragment extends Fragment {
                 float zAcc = sensorEvent.values[2];
 
                 // Processament o visualització de dades...
-                textX.setText("X: " + xAcc);
-                textY.setText("Y: " + yAcc);
-                textZ.setText("Z: " + zAcc);
+                barX.setProgress((int) ((Math.abs(xAcc)) * 100));
+                barY.setProgress((int) ((Math.abs(xAcc)) * 100));
+                barZ.setProgress((int) ((Math.abs(xAcc)) * 100));
             }
 
             @Override
@@ -62,7 +63,7 @@ public class AccFragment extends Fragment {
 
         // Seleccionem el tipus de sensor (veure doc oficial)
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
         // registrem el Listener per capturar els events del sensor
         if( sensor!=null ) {
